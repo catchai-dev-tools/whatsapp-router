@@ -159,12 +159,14 @@ def whatsapp_webhook():
 
 @app.route('/accounts', methods=['GET', 'POST'])
 def accounts_ui():
+    logger.info(f"UI request: {request.method} {request.path} | form: {dict(request.form)}")
     if request.method == 'POST':
         appid = request.form.get('appid', '').strip()
         phoneid = request.form.get('phoneid', '').strip()
         secret = request.form.get('secret', '').strip()
         token = request.form.get('token', '').strip()
         n8n_webhook = request.form.get('n8n_webhook', '').strip()
+        logger.info(f"Received POST to /accounts: appid={appid}, phoneid={phoneid}, secret={'***' if secret else ''}, token={'***' if token else ''}, n8n_webhook={n8n_webhook}")
         if phoneid:
             acc = {'appid': appid, 'phoneid': phoneid, 'secret': secret, 'token': token, 'n8n_webhook': n8n_webhook}
             save_account(acc)
@@ -175,7 +177,9 @@ def accounts_ui():
 
 @app.route('/accounts/delete', methods=['POST'])
 def delete_account_route():
+    logger.info(f"UI request: {request.method} {request.path} | form: {dict(request.form)}")
     phoneid = request.form.get('phoneid', '').strip()
+    logger.info(f"Received POST to /accounts/delete: phoneid={phoneid}")
     if phoneid:
         delete_account(phoneid)
         logger.info(f"Account deleted: phoneid={phoneid}")
@@ -183,6 +187,7 @@ def delete_account_route():
 
 @app.route('/')
 def index():
+    logger.info(f"UI request: {request.method} {request.path}")
     return redirect(url_for('accounts_ui'))
 
 if __name__ == '__main__':
