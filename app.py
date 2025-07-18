@@ -64,7 +64,7 @@ UI_TEMPLATE = '''
 <td><button type="submit">Save</button></td>
 </form>
 <form method="POST" action="/accounts/delete" style="display:inline;">
-<input type="hidden" name="appid" value="{{ acc['appid'] }}">
+<input type="hidden" name="phoneid" value="{{ acc['phoneid'] }}">
 <td><button type="submit">Delete</button></td>
 </form>
 </tr>
