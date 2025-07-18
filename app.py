@@ -173,6 +173,9 @@ def accounts_ui():
             logger.info(f"Account saved: phoneid={phoneid}")
         return redirect(url_for('accounts_ui'))
     accounts = load_accounts()
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
     return render_template_string(UI_TEMPLATE, accounts=accounts, logs=LOGS)
 
 @app.route('/accounts/delete', methods=['POST'])
@@ -187,6 +190,10 @@ def delete_account_route():
 
 @app.route('/')
 def index():
+    response = make_response(redirect(url_for('accounts_ui')))
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
     logger.info(f"UI request: {request.method} {request.path}")
     return redirect(url_for('accounts_ui'))
 
